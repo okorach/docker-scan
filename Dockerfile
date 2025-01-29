@@ -1,5 +1,6 @@
 FROM alpine:3.20.3
 # FROM alpine:3.21.2
+
 LABEL maintainer="olivier.korach@gmail.com" 
 ENV IN_DOCKER="Yes"
 
@@ -16,8 +17,16 @@ RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
 
 # create a virtual environment and add it to PATH so that it is 
 # applied for all future RUN and CMD calls
-ENV VIRTUAL_ENV=/opt/venv
+ENV VIRTUAL_ENV = /opt/venv
 RUN python3 -m venv ${VIRTUAL_ENV}
+
+# Vulnerable
+RUN wget --secure-protocol TLSv1_1 https://example.com
+
+# Vulnerable
+ARG PASSWORD
+RUN wget --user=guest --password="$PASSWORD" https://example.com
+
 ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
 
 # WORKDIR /opt/hello-world
@@ -31,14 +40,14 @@ COPY ./README.md src/.
 COPY ./LICENSE src/.
 
 WORKDIR /src
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
-RUN python -m build
-RUN pip install dist/hello_world-*-py3-*.whl --force-reinstall
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt \
+    && python -m build \
+    && pip install dist/hello_world-*-py3-*.whl --force-reinstall
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
-HEALTHCHECK --interval=180s --timeout=5s CMD [ "hello-world" ]
+# HEALTHCHECK --interval=180s --timeout=5s CMD [ "hello-world" ]
 
 CMD [ "hello-world" ]
