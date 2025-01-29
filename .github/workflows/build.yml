@@ -1,0 +1,49 @@
+name: build
+on:
+  push:
+    branches:
+      - master # or the name of your main branch
+      - release-*
+      - hardening-*
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+  # schedule:
+  #  - cron: '17 0 * * 4'
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Build python package
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-to-build.txt ]; then pip install -r requirements.txt; fi
+          python setup.py bdist_wheel
+
+      - name: Build docker image
+        run: docker build -t olivierkorach/hello-world:latest -f Dockerfile . --load
+
+      - name: Run linters
+        working-directory: .
+        run: |
+          chmod +x lint.sh
+          ./lint.sh
+
+      - name: SonarCloud scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          # Add: -Dsonar.userHome=./.sonar for local cache
+          args: >
+            -Dsonar.verbose=false
