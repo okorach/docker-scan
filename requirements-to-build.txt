@@ -1,5 +1,0 @@
-pylint
-checkov
-setuptools
-wheel
-twine
