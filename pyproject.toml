@@ -1,0 +1,33 @@
+#[build-system]
+
+#requires = ["setuptools", "wheel"]
+# The name of the Python object that frontends will use to perform the build:
+#build-backend = "setuptools.build_meta"
+
+[project]
+name = "hello-world"
+version = "1.0"
+authors = [
+  { name="Olivier Korach", email="olivier.korach@gmail.com" },
+]
+description = "A small example package"
+readme = "README.md"
+requires-python = ">=3.9"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+
+dependencies = []
+
+license = { file = "LICENSE" }
+
+[project.scripts]
+hello-world = "helloworld.hello:main"
+
+[project.urls]
+Homepage = "https://github.com/okorach/docker-scan"
+Issues = "https://github.com/okorach/docker-scan/issues"
+
