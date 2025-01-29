@@ -5,8 +5,13 @@ BUILDDIR="$ROOTDIR/build"
 [ ! -d "$BUILDDIR" ] && mkdir "$BUILDDIR"
 rm -rf -- ${BUILDDIR:?"."}/* */__pycache__ */*.pyc
 
+if [[ ! "$(which python)" =~ ^.*venv/bin/python$ ]]; then
+    # Activate python virtual env
+    . venv/bin/activate
+fi
+
 echo "======= BUILDING PYTHON PACKAGE ========="
-python3 "$ROOTDIR/setup.py" bdist_wheel >/dev/null
+python -m build >/dev/null
 
 echo "======= BUILDING DOCKER IMAGE WITH PYTHON PACKAGE ========="
 docker build -t "olivierkorach/hello-world:1.0-snapshot" -t olivierkorach/hello-world:latest -f "$ROOTDIR/Dockerfile" "$ROOTDIR" --load
@@ -31,4 +36,4 @@ echo "===> Running trivy"
 trivyReport="$BUILDDIR/external-issues-trivy.json"
 trivy image -f json -o "$BUILDDIR"/trivy_results.json olivierkorach/hello-world:latest
 echo "===> Converting trivy report to SonarQube generic format"
-python3 "$ROOTDIR"/trivy2sonar.py < "$BUILDDIR"/trivy_results.json > "$trivyReport"
+python "$ROOTDIR"/trivy2sonar.py < "$BUILDDIR"/trivy_results.json > "$trivyReport"
