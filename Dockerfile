@@ -20,12 +20,14 @@ RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
 ENV VIRTUAL_ENV = /opt/venv
 RUN python3 -m venv ${VIRTUAL_ENV}
 
-# Vulnerable
-RUN wget --secure-protocol TLSv1_1 https://example.com
 
 # Vulnerable
 ARG PASSWORD
+RUN apk add --no-cache wget
 RUN wget --user=guest --password="$PASSWORD" https://example.com
+
+# Vulnerable
+RUN wget --secure-protocol=SSLv2 https://example.com
 
 ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
 
