@@ -23,19 +23,18 @@ ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
 # WORKDIR /opt/hello-world
 WORKDIR .
 
-COPY ./helloworld helloworld
-COPY ./requirements.txt .
-COPY ./cli cli
-COPY ./setup.py .
-COPY ./hello-world .
-COPY ./README.md .
-COPY ./LICENSE .
+COPY ./helloworld src/helloworld
+COPY ./requirements.txt src/.
+COPY ./pyproject.toml src/.
+COPY ./hello-world src/.
+COPY ./README.md src/.
+COPY ./LICENSE src/.
 
-RUN pip install --upgrade pip \
-&& pip install --no-cache-dir -r requirements.txt \
-&& pip install --no-cache-dir --upgrade pip setuptools wheel \
-&& python setup.py bdist_wheel \
-&& pip install dist/hello_world-*-py3-*.whl --force-reinstall
+WORKDIR /src
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m build
+RUN pip install dist/hello_world-*-py3-*.whl --force-reinstall
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
