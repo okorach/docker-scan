@@ -2,7 +2,17 @@
 
 echo "======= Installing prerequisites ========="
 
-# Install pylint, checkov
+# Setting up local python virtual environment
+if [ ! -d ./venv ]; then
+    # Create python virtual env venv
+    python -m venv venv
+fi
+if [[ ! "$(which python)" =~ ^.*venv/bin/python$ ]]; then
+    # Create python virtual env venv
+    . venv/bin/activate
+fi
+
+# Install pylint, checkov in the python virtual env
 pip3 install --upgrade pip
 pip3 install -r requirements-to-build.txt
 
