@@ -1,0 +1,9 @@
+.idea
+.scannerwork
+build/
+dist/
+*.egg-info/
+!.vscode/*.json
+.sonar/
+venv/
+.DS_Store
