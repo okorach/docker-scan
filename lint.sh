@@ -26,14 +26,14 @@ if [ "$re" == "32" ]; then
 fi
 
 echo "===> Running shellcheck and converting to SonarQube generic format on-the-fly"
-shellcheckReport="$BUILDDIR/external-issues-shellcheck.json"
+shellcheckReport="$BUILDDIR/generic-shellcheck.json"
 shellcheck "$ROOTDIR"/*.sh -s bash -f json | "$ROOTDIR"/shellcheck2sonar.py >"$shellcheckReport"
 
 echo "===> Running checkov"
-checkov -d . --framework dockerfile -o sarif --output-file-path "$BUILDDIR"
+checkov -d . --framework dockerfile -o sarif --output-file-path "$BUILDDIR" >/dev/null
 
 echo "===> Running trivy"
-trivyReport="$BUILDDIR/external-issues-trivy.json"
+trivyReport="$BUILDDIR/generic-trivy.json"
 trivy image -f json -o "$BUILDDIR"/trivy_results.json olivierkorach/hello-world:latest
 echo "===> Converting trivy report to SonarQube generic format"
 python "$ROOTDIR"/trivy2sonar.py < "$BUILDDIR"/trivy_results.json > "$trivyReport"
