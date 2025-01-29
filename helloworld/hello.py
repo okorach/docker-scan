@@ -4,13 +4,9 @@
 """
 import sys
 
-TOOL_NAME = "hello-world"
-
-
-def main() -> None:
-    """Hello World entry point"""
+def main():
     message = "Hello World!"
-    print(message)
+    print("Hello World!")
     sys.exit(0)
 
 
