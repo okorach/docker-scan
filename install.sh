@@ -5,9 +5,9 @@ echo "======= Installing prerequisites ========="
 # Setting up local python virtual environment
 if [ ! -d ./venv ]; then
     # Create python virtual env venv
-    python -m venv venv
+    python3 -m venv venv
 fi
-if [[ ! "$(which python)" =~ ^.*venv/bin/python$ ]]; then
+if [[ ! "$(which python3)" =~ ^.*venv/bin/python3$ ]]; then
     # Create python virtual env venv
     . venv/bin/activate
 fi

@@ -16,18 +16,18 @@ function logcmd {
 [ ! -d "$BUILDDIR" ] && mkdir "$BUILDDIR"
 rm -rf -- ${BUILDDIR:?"."}/* */__pycache__ */*.pyc
 
-if [[ ! "$(which python)" =~ ^.*venv/bin/python$ ]]; then
+if [[ ! "$(which python3)" =~ ^.*venv/bin/python3$ ]]; then
     # Activate python virtual env
     . venv/bin/activate
 fi
 
 log "\n======= BUILDING PYTHON PACKAGE ========="
-logcmd python -m build "\n"
-python -m build >/dev/null
+logcmd python3 -m build "\n"
+python3 -m build >/dev/null
 
 log "\n======= BUILDING DOCKER IMAGE WITH PYTHON PACKAGE ========="
-logcmd docker build -t "olivierkorach/hello-world:1.0-snapshot" -t olivierkorach/hello-world:latest -f "$ROOTDIR/Dockerfile" "$ROOTDIR" --load "\n"
-docker build -t "olivierkorach/hello-world:1.0-snapshot" -t olivierkorach/hello-world:latest -f "$ROOTDIR/Dockerfile" "$ROOTDIR" --load
+logcmd docker build -t "$DOCKER_USER/hello-world:1.0-snapshot" -t $DOCKER_USER/hello-world:latest -f "$ROOTDIR/Dockerfile" "$ROOTDIR" --load "\n"
+docker build -t "$DOCKER_USER/hello-world:1.0-snapshot" -t $DOCKER_USER/hello-world:latest -f "$ROOTDIR/Dockerfile" "$ROOTDIR" --load
 
 log "\n======= Running pylint ======="
 pylintReport="$BUILDDIR/pylint-report.out"
