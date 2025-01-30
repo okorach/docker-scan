@@ -69,4 +69,5 @@ git checkout docker-fixes
 ./lint.sh
 sonar-scanner -Dsonar.branch.name=docker-fixes
 ```
-  - Browse to SonarQube and show the `docker-fixes` branch with a spotless `Dockerfile` and 0 docker language issues
+  - Browse to SonarQube and show the `docker-fixes` branch with an almost spotless `Dockerfile`.
+    There is 1 docker maintability issue, that is better not fix for the demo, otherwise all vulnerabilities have been solved
