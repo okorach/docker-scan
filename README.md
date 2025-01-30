@@ -29,7 +29,7 @@ After cloning the repository, all prerequisites except SonarQube and Docker can 
 To be done once for all on each machine where the demo may need to be run
 
 ## Demo Scenario
-- make sure your **$SONAR_URL_URL** and **$SONAR_TOKEN** environment variables are pointing to the SonarQube instance you want to use for the demo
+- make sure your **$SONAR_HOST_URL** and **$SONAR_TOKEN** environment variables are pointing to the SonarQube instance you want to use for the demo
 - Run `./lint.sh`
   This should:
   - Build an `hello-world` python package
@@ -63,7 +63,7 @@ sonar.externalIssuesReportPaths=build/generic-shellcheck.json, build/generic-tri
 
 - If you want to go beyond and show how you fix the issues:
   - You may change to the `docker-fixes` repository branch that has all the fixes
-  - Run `.lint.sh` then `sonar-scanner -Dsonar.branch.name=docker-fixes` again
+  - Run `./lint.sh` then `sonar-scanner -Dsonar.branch.name=docker-fixes` again
 ```
 git checkout docker-fixes
 ./lint.sh
