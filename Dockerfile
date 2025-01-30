@@ -35,8 +35,8 @@ RUN wget --secure-protocol=TLSv1_2 https://example.com
 
 ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
 
-# WORKDIR /opt/hello-world
-WORKDIR .
+WORKDIR /opt/hello-world
+# WORKDIR .
 
 COPY ./helloworld src/helloworld
 COPY ./requirements.txt src/.
