@@ -30,7 +30,10 @@ To be done once for all on each machine where the demo may need to be run
 
 ## Demo Scenario
 - make sure your **$SONAR_HOST_URL** and **$SONAR_TOKEN** environment variables are pointing to the SonarQube instance you want to use for the demo
-- Make sure you set the **$DOCKER_USER** enviromnet variable to your docker user account
+  `export SONAR_HOST_URL=https://mysonarqube.acme.com`
+  `export SONAR_TOKEN=sqa_xxxxxxxxxxxxxxxxxxxxx`
+- Make sure you set the **$DOCKER_USER** environment variable to your docker user account
+  `export DOCKER_USER=olivierkorach`
 - Run `./lint.sh`
   This should:
   - Build an `hello-world` python package
