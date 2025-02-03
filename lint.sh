@@ -27,7 +27,7 @@ python3 -m build >/dev/null
 
 log "\n======= BUILDING DOCKER IMAGE WITH PYTHON PACKAGE ========="
 logcmd docker build -t "$DOCKER_USER/hello-world:1.0-snapshot" -t $DOCKER_USER/hello-world:latest -f "$ROOTDIR/Dockerfile" "$ROOTDIR" --load "\n"
-docker build -t "$DOCKER_USER/hello-world:1.0-snapshot" -t $DOCKER_USER/hello-world:latest -f "$ROOTDIR/Dockerfile" "$ROOTDIR" --load
+docker build -t "$DOCKER_USER/hello-world:1.0-snapshot" -t "$DOCKER_USER/hello-world:latest" -f "$ROOTDIR/Dockerfile" "$ROOTDIR" --load
 
 log "\n======= Running pylint ======="
 pylintReport="$BUILDDIR/pylint-report.out"
